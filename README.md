@@ -1,1 +1,1 @@
-# airtificial_intelligence
+# Airtificial Intelligence
