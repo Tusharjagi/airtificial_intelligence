@@ -60,6 +60,25 @@ def chunk_documents(documents):
 
     return chunks
 
+def create_vector_store(chunks):
+    print("\nGenerating embeddings and storing in ChromaDB...")
+
+    embeddings = OpenAIEmbeddings(
+        model="text-embedding-3-small"
+    )
+
+    vector_store = Chroma.from_documents(
+        documents=chunks,
+        embedding=embeddings,
+        collection_name="company_documents",
+        persist_directory="./chroma_db"
+    )
+
+    print("Successfully stored embeddings in ChromaDB!")
+
+    return vector_store
+
+
 
 def main ():
   print("main fucntion")
@@ -69,6 +88,11 @@ def main ():
 
   # chunking of documents
   chunks = chunk_documents(documents)
+
+  # Generate embeddings and store vectors
+  vector_store = create_vector_store(chunks)
+
+  print("\nRAG ingestion completed successfully!")
 
 
 
