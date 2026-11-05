@@ -37,10 +37,40 @@ def load_documents(docs_path="docs"):
   return documents
 
 
+def chunk_documents(documents):
+    print("\nChunking documents...")
+
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=500,
+        chunk_overlap=50,
+        length_function=len,
+        separators=["\n\n", "\n", " ", ""]
+    )
+
+    chunks = text_splitter.split_documents(documents)
+
+    print(f"Total documents: {len(documents)}")
+    print(f"Total chunks generated: {len(chunks)}")
+
+    for i, chunk in enumerate(chunks[:3]):
+        print(f"\nChunk {i + 1}:")
+        print(f"Content: {chunk.page_content[:150]}...")
+        print(f"Content length: {len(chunk.page_content)}")
+        print(f"Metadata: {chunk.metadata}")
+
+    return chunks
+
+
 def main ():
   print("main fucntion")
 
+  # loading documents
   documents = load_documents(docs_path="docs")
+
+  # chunking of documents
+  chunks = chunk_documents(documents)
+
+
 
 if __name__ == "__main__":
   main()
